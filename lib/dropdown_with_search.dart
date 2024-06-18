@@ -65,21 +65,20 @@ class DropdownWithSearch<T> extends StatelessWidget {
           });
         },
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          padding: EdgeInsets.all(15),
           decoration: !disabled
               ? decoration != null
                   ? decoration
                   : BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey.shade300, width: 1))
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Colors.black,
+                      border: Border.all(color: Colors.white, width: 2))
               : disabledDecoration != null
                   ? disabledDecoration
                   : BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      color: Colors.grey.shade300,
-                      border:
-                          Border.all(color: Colors.grey.shade300, width: 1)),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Colors.black,
+                      border: Border.all(color: Colors.yellow, width: 2)),
           child: Row(
             children: [
               Expanded(

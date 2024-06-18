@@ -546,12 +546,9 @@ class CSCPicker extends StatefulWidget {
     this.stateDropdownLabel = "State",
     this.cityDropdownLabel = "City",
     this.countryFilter,
-    this.title,
-    this.clearButtonContent = const Text("Clear"),
-    this.showClearButton = false,
   }) : super(key: key);
 
-  final ValueChanged<String?>? onCountryChanged;
+  final ValueChanged<String>? onCountryChanged;
   final ValueChanged<String?>? onStateChanged;
   final ValueChanged<String?>? onCityChanged;
 
@@ -560,13 +557,6 @@ class CSCPicker extends StatefulWidget {
   final String? currentCity;
 
   final bool disableCountry;
-
-  // clear button parameters
-  final bool showClearButton;
-  final Widget clearButtonContent;
-
-  // title widget
-  final Widget? title;
 
   ///Parameters to change style of CSC Picker
   final TextStyle? selectedItemStyle, dropdownHeadingStyle, dropdownItemStyle;
@@ -786,7 +776,6 @@ class CSCPickerState extends State<CSCPicker> {
         _selectedCity = widget.cityDropdownLabel;
         this.widget.onCityChanged!(null);
         _selectedState = value;
-        getCities();
       } else {
         this.widget.onCityChanged!(_selectedCity);
       }
@@ -808,32 +797,40 @@ class CSCPickerState extends State<CSCPicker> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (widget.title != null || widget.showClearButton)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (widget.title != null) Expanded(flex: 2, child: widget.title!),
-              if (widget.showClearButton)
-                Expanded(flex: 1, child: clearButton()),
-            ],
-          ),
-        if (widget.title != null || widget.showClearButton)
-          const SizedBox(
-            height: 10.0,
-          ),
         widget.layout == Layout.vertical
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Align(
+                      alignment: AlignmentDirectional(-1.0, -1.0),
+                      child: Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 4.0, 0.0, 5.0),
+                          child: Text("Country",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.white,
+                                  fontFamily: "MontserratRegular")))),
                   countryDropdown(),
                   SizedBox(
                     height: 10.0,
                   ),
+                  Align(
+                      alignment: AlignmentDirectional(-1.0, -1.0),
+                      child: Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 4.0, 0.0, 5.0),
+                          child: Text("Region",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.white,
+                                  fontFamily: "MontserratRegular")))),
                   stateDropdown(),
                   SizedBox(
                     height: 10.0,
                   ),
-                  cityDropdown()
                 ],
               )
             : Column(
@@ -981,25 +978,5 @@ class CSCPickerState extends State<CSCPicker> {
         value != null ? _onSelectedCity(value) : _onSelectedCity(_selectedCity);
       },
     );
-  }
-
-  Widget clearButton() {
-    return ElevatedButton(
-      onPressed: () => clearFields(),
-      child: widget.clearButtonContent,
-    );
-  }
-
-  clearFields() {
-    if (this.widget.onCountryChanged != null)
-      this.widget.onCountryChanged!(null);
-    _states.clear();
-    _cities.clear();
-    _selectedState = widget.stateDropdownLabel;
-    _selectedCity = widget.cityDropdownLabel;
-    if (this.widget.onStateChanged != null) this.widget.onStateChanged!(null);
-    if (this.widget.onCityChanged != null) this.widget.onCityChanged!(null);
-    _selectedCountry = null;
-    getStates();
   }
 }
